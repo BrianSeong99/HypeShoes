@@ -1,0 +1,1 @@
+/Users/jinwooseong/Developer/CourseWork/514_hardwareandsoftware/Smart_Shoes/backend/target/debug/backend: /Users/jinwooseong/Developer/CourseWork/514_hardwareandsoftware/Smart_Shoes/backend/src/main.rs
