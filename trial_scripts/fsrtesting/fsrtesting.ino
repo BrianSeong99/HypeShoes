@@ -8,7 +8,11 @@ void setup() {
 void loop() {
   int fsrRead = analogRead(fsrPin);
   // if(analogRead(fsrPin) >= 10){
-  Serial.println(fsrRead);
+  Serial.print(fsrRead);
+  Serial.print(" = ");
+  float voltage0 = fsrRead * (3.3 / 1023.0);
+  Serial.print(voltage0);
+  Serial.println("kg");
   delay(100);
   //  }
 }
