@@ -1,3 +1,8 @@
+# Reference
+
+- [Web Browser & BLE](https://www.bekk.christmas/post/2021/12/web-bluetooth)
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
