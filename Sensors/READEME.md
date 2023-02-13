@@ -11,3 +11,4 @@
 - [ESP8266 with accelerometer](https://randomnerdtutorials.com/esp8266-nodemcu-mpu-6050-accelerometer-gyroscope-arduino/)
 - [Using Multiple I2C devices on ESP32](https://randomnerdtutorials.com/esp32-i2c-communication-arduino-ide/)
 - [ESP8266 ESP32 I2C Scanner](https://github.com/jainrk/i2c_port_address_scanner/blob/master/i2c_port_address_scanner/i2c_port_address_scanner.ino)
+- [How to setup ESP32 as BLE Server](https://randomnerdtutorials.com/esp32-bluetooth-low-energy-ble-arduino-ide/)
