@@ -25,14 +25,18 @@
 #define DEVICE_NAME "SShoes11"
 
 BLECharacteristic *characteristicMessage;
+bool deviceConnected = false;
+
 
 class MyServerCallbacks : public BLEServerCallbacks {
   void onConnect(BLEServer *server) {
     Serial.println("Connected");
+    deviceConnected = true;
   };
 
   void onDisconnect(BLEServer *server) {
     Serial.println("Disconnected");
+    deviceConnected = false;
   }
 };
 
@@ -87,5 +91,15 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
+  if (deviceConnected) {
+    sensorvalue = analogRead(A0);
+
+    //in order to send the value we must convert it to characteristic
+    char txString[8];
+    dtostrf(sensorvalue, 1, 2, txString);
+    pCharacteristic->setValue(txString);
+    pCharacteristic->notify();
+    Serial.println("Sent value : " + String(txString));
+  }
   delay(2000);
 }

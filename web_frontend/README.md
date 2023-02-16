@@ -1,6 +1,7 @@
 # Reference
 
 - [Web Browser & BLE](https://www.bekk.christmas/post/2021/12/web-bluetooth)
+- [Live Stream Line Chart](https://codesandbox.io/s/k6x1v?file=/src/App.js:0-1857)
 
 
 # Getting Started with Create React App
