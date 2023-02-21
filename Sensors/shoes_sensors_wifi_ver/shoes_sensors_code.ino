@@ -3,10 +3,19 @@
 #include <Adafruit_Sensor.h>
 #include <Wire.h>
 
+#include "esp_http_client.h"
+#include <WiFi.h>
+#include "Arduino.h"
+
 #define I2C_SDA 17
 #define I2C_SCL 21
 #define IMU_SDA 26
 #define IMU_SCL 18
+
+const char *ssid = "HJHJHJ";
+const char *password = "HJ1211HJ1211";
+
+const char *post_url = "http://your-webserver.net/yourscript.php"; // Location to send POSTed data
 
 Adafruit_ADS1115 ads;  /* Use this for the 16-bit version */
 Adafruit_MPU6050 mpu;
