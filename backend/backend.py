@@ -4,9 +4,11 @@ import json
 
 app = Flask(__name__)
 
+isUpload = True
+
 @app.route("/")
 def setup():
-    return "hellow_world"
+    return "hello_world"
 
 @app.route("/uploadcheck", methods=["GET", "POST"])
 def check_upload():
