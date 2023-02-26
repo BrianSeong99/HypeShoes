@@ -19,13 +19,16 @@ const char *password = "HJ1211HJ1211";
 
 String server_url = "http://10.0.0.92:5001/"; // Location to send POSTed data
 
-unsigned long lastTime = 0;
-unsigned long timerDelay = 5000;
-
 Adafruit_ADS1115 ads;  /* Use this for the 16-bit version */
 Adafruit_MPU6050 mpu;
 
 const int fsr4Pin = 34;
+
+unsigned long startMillis;  //some global variables available anywhere in the program
+unsigned long lastMillis;
+unsigned long timerDelay;
+
+bool isUpload = false;
 
 void setup(void) {
   Serial.begin(115200);
@@ -62,6 +65,9 @@ void setup(void) {
   Serial.print("Connected to WiFi network with IP Address: ");
   Serial.println(WiFi.localIP());
  
+  startMillis = millis();
+  lastMillis = startMillis;
+  timerDelay = 5000;
   Serial.println("Timer set to 5 seconds (timerDelay variable), it will take 5 seconds before publishing the first reading.");
 }
 
@@ -174,16 +180,18 @@ void upload() {
 }
 
 void loop(void) {
-  if(WiFi.status()== WL_CONNECTED){
-    bool isUpload = check_upload();
-    Serial.print("isUpload?: "); Serial.println(isUpload); 
-    if (isUpload) {
-      upload();
+  if (millis() - lastMillis > timerDelay) {
+    if(WiFi.status()== WL_CONNECTED){
+      isUpload = check_upload();
+      Serial.print("isUpload?: "); Serial.println(isUpload); 
     }
-    Serial.println();
+    else {
+      Serial.println("Wifi Not Connected");
+    }
+    lastMillis = millis();
   }
-  else {
-    Serial.println("Wifi Not Connected");
+  if (isUpload) {
+    upload();
   }
-  delay(1000);
+  delay(100);
 }
