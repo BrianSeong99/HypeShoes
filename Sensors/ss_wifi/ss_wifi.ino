@@ -22,7 +22,7 @@ const char *password = "HJ1211HJ1211";
 // Set web server port number to 80
 AsyncWebServer server(80);
 
-String server_url = "http://10.0.0.92:5001"; // Location to send POSTed data
+String server_url = "http://10.0.0.92:5001/esp32"; // Location to send POSTed data
 
 Adafruit_ADS1115 ads;  /* Use this for the 16-bit version */
 Adafruit_MPU6050 mpu;
@@ -80,7 +80,7 @@ void setupWifiConnection() {
 
 void registerDevice() {
   HTTPClient http;
-  String serverPath = server_url + "/registerdevice";
+  String serverPath = server_url + "/register";
   Serial.print("serverPath: "); Serial.println(serverPath);
   http.begin(serverPath.c_str());
   http.addHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -121,11 +121,11 @@ void handleRecording(bool isRecording) {
   isUpload = isRecording;
 
   HTTPClient http;
-  String serverPath = server_url + "/isRecording";
+  String serverPath = server_url + "/record";
   // Serial.print("serverPath: "); Serial.println(serverPath);
   http.begin(serverPath.c_str());
   http.addHeader("Content-Type", "application/x-www-form-urlencoded");
-  String httpRequestData = "deviceID=" + String(deviceID) + "&isRecording=" + String(isRecording);
+  String httpRequestData = "deviceID=" + String(deviceID) + "&record=" + String(isRecording);
   int httpResponseCode = http.POST(httpRequestData);
   if (httpResponseCode>0) {
     Serial.print("HTTP Response code: ");
@@ -156,35 +156,6 @@ void setup(void) {
   frequency = pending_frequency;
   // setupTimer();
   // Serial.println("Timer set to 5 seconds (timerDelay variable), it will take 5 seconds before publishing the first reading.");
-}
-
-bool check_upload() {
-  // MEMCK;
-  HTTPClient http;
-  bool toUpload = false;
-  String serverPath = server_url + "/uploadcheck";
-  http.begin(serverPath.c_str());
-  int httpResponseCode = http.GET();
-  if (httpResponseCode>0) {
-    // Serial.print("HTTP Response code: ");
-    // Serial.println(httpResponseCode);
-    String payload = http.getString();
-    if (payload.equals("true")) {
-      toUpload = true;
-      // Serial.println("toUpload true");
-    } else {
-      toUpload = false;
-      // Serial.println("toUpload false");
-    }
-  }
-  else {
-    Serial.print("Error code: ");
-    Serial.println(httpResponseCode);
-    toUpload = false;
-    // Serial.println("toUpload false");
-  }
-  http.end();
-  return toUpload;
 }
 
 void upload() {
@@ -258,6 +229,13 @@ void upload() {
   if (httpResponseCode>0) {
     Serial.print("HTTP Response code: ");
     Serial.println(httpResponseCode);
+    String payload = http.getString();
+    Serial.println(payload);
+    if (payload.equals("Not authorized to upload")) {
+      frequency = pending_frequency;
+      Serial.print("Recording Status: "); Serial.println(false);
+      handleRecording(false);
+    }
   }
   else {
     Serial.print("Error code: ");
@@ -267,20 +245,14 @@ void upload() {
 }
 
 void loop(void) {
+  // Serial.print("Frequency: "); Serial.println(frequency);
+  delay(frequency);
   if(WiFi.status()== WL_CONNECTED){
-    // if (millis() - lastMillis > timerDelay) {
-    //   isUpload = check_upload();
-    //   Serial.print("isUpload?: "); Serial.println(isUpload); 
-    //   lastMillis = millis();
-    // }
     if (isUpload) {
       upload();
-      Serial.println("Uploaded");
     }
   }
   else {
     Serial.println("Wifi Not Connected");
   }
-  Serial.print("Frequency: "); Serial.println(frequency);
-  delay(frequency);
 }
