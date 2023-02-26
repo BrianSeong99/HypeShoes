@@ -4,7 +4,7 @@ import json
 
 app = Flask(__name__)
 
-isUpload = True
+isUpload = False
 
 @app.route("/")
 def setup():
