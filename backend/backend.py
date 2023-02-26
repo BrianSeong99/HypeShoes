@@ -30,5 +30,7 @@ def upload_data():
     if isUpload is not True:
         return "Not authorized to upload"
     else:
-        print(request.args.get('ax', ''))
+        data = request.form
+
+        print(data)
         return "uploaded"
