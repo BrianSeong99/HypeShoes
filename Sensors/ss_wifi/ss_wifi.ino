@@ -17,6 +17,9 @@
 const char *ssid = "HJHJHJ";
 const char *password = "HJ1211HJ1211";
 
+// Set web server port number to 80
+WiFiServer server(80);
+
 String server_url = "http://10.0.0.92:5001/"; // Location to send POSTed data
 
 Adafruit_ADS1115 ads;  /* Use this for the 16-bit version */
@@ -30,23 +33,19 @@ unsigned long timerDelay;
 
 bool isUpload = false;
 
-void setup(void) {
-  Serial.begin(115200);
-  
-  pinMode(fsr4Pin, INPUT);
-  Wire.begin(I2C_SDA, I2C_SCL, 1000000);
+void setupADS() {
   if (!ads.begin(0x48, &Wire)) {
     Serial.println("Failed to initialize ADS.");
     while (1);
   }
+}
 
+void setupMPU() {
   if (!mpu.begin(0x68, &Wire)) {
     Serial.println("Sensor init failed");
     while (1)
       yield();
   }
-  Serial.println("MPU6050 Found!");
-
   //setupt motion detection
   mpu.setHighPassFilter(MPU6050_HIGHPASS_0_63_HZ);
   mpu.setMotionDetectionThreshold(1);
@@ -54,20 +53,35 @@ void setup(void) {
   mpu.setInterruptPinLatch(true);	// Keep it latched.  Will turn off when reinitialized.
   mpu.setInterruptPinPolarity(true);
   mpu.setMotionInterrupt(true);
+}
 
+void setupWifiConnection() {
   WiFi.begin(ssid, password);
   Serial.println("Connecting");
   while(WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
-  }
-  Serial.println("");
-  Serial.print("Connected to WiFi network with IP Address: ");
-  Serial.println(WiFi.localIP());
- 
+  }  
+}
+
+void setupTimer() {
   startMillis = millis();
   lastMillis = startMillis;
   timerDelay = 5000;
+}
+
+void setup(void) {
+  Serial.begin(115200);
+  pinMode(fsr4Pin, INPUT);
+  Wire.begin(I2C_SDA, I2C_SCL, 1000000);
+
+  setupADS();
+  Serial.println("ADS Found!");
+  setupMPU();
+  Serial.println("MPU6050 Found!");
+  setupWifiConnection();
+  Serial.print("Connected to WiFi network with IP Address: ");Serial.println(WiFi.localIP());
+  setupTimer();
   Serial.println("Timer set to 5 seconds (timerDelay variable), it will take 5 seconds before publishing the first reading.");
 }
 
