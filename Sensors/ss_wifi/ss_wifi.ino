@@ -29,11 +29,15 @@ Adafruit_MPU6050 mpu;
 
 const int fsr4Pin = 34;
 
-unsigned long startMillis;  //some global variables available anywhere in the program
-unsigned long lastMillis;
-unsigned long timerDelay;
+// unsigned long startMillis;  //some global variables available anywhere in the program
+// unsigned long lastMillis;
+// unsigned long timerDelay;
 
 bool isUpload = false;
+
+int frequency = 100;
+const int default_frequency = 100;
+const int pending_frequency = 5000;
 
 const unsigned long deviceID = 10000001;
 
@@ -68,11 +72,11 @@ void setupWifiConnection() {
   }  
 }
 
-void setupTimer() {
-  startMillis = millis();
-  lastMillis = startMillis;
-  timerDelay = 5000;
-}
+// void setupTimer() {
+//   startMillis = millis();
+//   lastMillis = startMillis;
+//   timerDelay = 5000;
+// }
 
 void registerDevice() {
   HTTPClient http;
@@ -95,11 +99,14 @@ void registerDevice() {
 
 void setupServer() {
   server.on("/start", HTTP_GET, [](AsyncWebServerRequest *request){
+    int param = request->getParam("frequency")->value().toInt();
+    frequency = param == 0 ? default_frequency : param;
     request->send(200, "text/plain", "RecordingStatus: " + String(true));
     Serial.print("Recording Status: "); Serial.println(true);
     handleRecording(true);
   });
   server.on("/stop", HTTP_GET, [](AsyncWebServerRequest *request){
+    frequency = pending_frequency;
     request->send(200, "text/plain", "RecordingStatus: " + String(false));
     Serial.print("Recording Status: "); Serial.println(false);
     handleRecording(false);
@@ -108,14 +115,6 @@ void setupServer() {
     request->send(404, "text/plain", "Page not found");
   });
   server.begin();
-}
-
-void handleStart() {
-  handleRecording(true);
-}
-
-void handleStop() {
-  handleRecording(false);
 }
 
 void handleRecording(bool isRecording) {
@@ -154,9 +153,9 @@ void setup(void) {
   Serial.println("Device Registered");
   setupServer();
   Serial.println("Server Setup Complete");
-
-  setupTimer();
-  Serial.println("Timer set to 5 seconds (timerDelay variable), it will take 5 seconds before publishing the first reading.");
+  frequency = pending_frequency;
+  // setupTimer();
+  // Serial.println("Timer set to 5 seconds (timerDelay variable), it will take 5 seconds before publishing the first reading.");
 }
 
 bool check_upload() {
@@ -282,5 +281,6 @@ void loop(void) {
   else {
     Serial.println("Wifi Not Connected");
   }
-  delay(100);
+  Serial.print("Frequency: "); Serial.println(frequency);
+  delay(frequency);
 }
