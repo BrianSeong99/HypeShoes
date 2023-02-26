@@ -27,6 +27,8 @@ def check_upload():
 
 @app.route("/upload", methods=["POST"])
 def upload_data():
+    data = request.form
+    print(data)
     if isUpload is not True:
         return "Not authorized to upload"
     else:
