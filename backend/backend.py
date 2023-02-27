@@ -126,6 +126,16 @@ def check_upload():
         message = message + requests.request("GET", url_right, headers={}, data={}).text
     return message
 
+# get record list
+@app.route(USER + "/data/recordlist", methods=["GET"])
+def get_record_list():
+    pass
+
+# get data by record id
+@app.route(USER + "/data/record", methods=["GET"])
+def get_record_data():
+    pass
+
 # register device when booting
 # accessed by esp32
 @app.route(ESP32 + "/register", methods=["POST"])
@@ -177,5 +187,5 @@ def upload_data():
     if is_upload is False:
         return "Not uploaded"
     else:
-        insert_new_entry(data, record_id)
+        insert_new_entry(data, record_id, time.time())
         return "Uploaded"
