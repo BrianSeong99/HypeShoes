@@ -17,9 +17,6 @@ def insert_new_user(user_data):
 def update_devices_with_email(email, deviceID):
   user = users_col.find_one({"email": email})
   devices = user['devices']
-  records = user['records']
-  if records == None:
-    records = []
   if devices == None:
     devices = [deviceID]
   elif deviceID in devices:

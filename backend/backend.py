@@ -3,6 +3,7 @@ from flask import request
 from flask_session import Session
 from os import environ
 import requests
+from werkzeug.datastructures import MultiDict
 
 from request_handler.esp_requests import *
 # from request_handler.client_requests import *
@@ -22,6 +23,7 @@ email = None
 left_IP = "0.0.0.0"
 right_IP = "0.0.0.0"
 is_upload = False
+record_id = None
 
 @app.route("/signup", methods=['POST', 'GET'])
 def signup():
@@ -147,7 +149,7 @@ def register_device():
 # accessed by esp32
 @app.route(ESP32 + "/record", methods=["POST"])
 def record_status():
-    global is_upload
+    global is_upload, record_id
     data = request.form
     # return record_status_handler(data)
     if is_upload:
@@ -155,10 +157,11 @@ def record_status():
         is_recording = bool(data['record'])
         if is_recording:
             is_upload = True
-            start_new_record(email, device_id)
+            record_id = start_new_record(email, device_id)
             return "Start Uploading"
         else:
             is_upload = False
+            record_id = None
             print(" Stop Recording: ", device_id, False)
             return "Stop Recording"
     else:
@@ -168,11 +171,11 @@ def record_status():
 # accessed by esp32
 @app.route(ESP32 + "/upload", methods=["POST"])
 def upload_data():
-    global is_upload
+    global is_upload, record_id
     data = request.form
     # return upload_data_handler(data)
     if is_upload is False:
-        return "Not authorized to upload"
+        return "Not uploaded"
     else:
-        print(data)
-        return "Not uploaded, is_upload is False"
+        insert_new_entry(data, record_id)
+        return "Uploaded"

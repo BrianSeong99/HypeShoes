@@ -1,5 +1,6 @@
 from database.schema import user_schema
 from jsonschema import validate
+from bson.objectid import ObjectId
 from database.database_variable import *
 
 records_col = db_v0.records
@@ -16,5 +17,23 @@ def start_new_record(email, device_id):
   else:
     records.append(entry.inserted_id)
   users_col.update_one({"email": email}, {"$set": {"records": records}})
-  return "record initiated"
+  return entry.inserted_id
 
+def insert_new_entry(data, record_id):
+  r0 = data['reading0']
+  r1 = data['reading1']
+  r2 = data['reading2']
+  r3 = data['reading3']
+  r4 = data['reading4']
+  ax = data['accelx']
+  ay = data['accely']
+  az = data['accelz']
+  gx = data['gyrox']
+  gy = data['gyroy']
+  gz = data['gyroz']
+  device_id = data['deviceID']
+  new_data = [r0, r1, r2, r3, r4, ax, ay, az, gx, gy, gz]
+  if int(device_id) % 2 == 0 :
+    records_col.update_one({ "_id": ObjectId(record_id) }, { "$push": { "left_sequence_data": new_data } })
+  else:
+    records_col.update_one({ "_id": ObjectId(record_id) }, { "$push": { "right_sequence_data": new_data } })

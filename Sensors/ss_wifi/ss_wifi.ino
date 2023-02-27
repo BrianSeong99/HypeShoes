@@ -202,7 +202,7 @@ void upload() {
   // Serial.print("3: "); Serial.print(adc3); Serial.print("  "); Serial.print(reading3); Serial.println("V");
   // Serial.print("4: "); Serial.print(fsr4Read); Serial.print("  "); Serial.print(reading4); Serial.println("V");
 
-  if(mpu.getMotionInterruptStatus()) {
+  // if(mpu.getMotionInterruptStatus()) {
     /* Get new sensor events with the readings */
     sensors_event_t a, g, temp;
     mpu.getEvent(&a, &g, &temp);
@@ -221,13 +221,13 @@ void upload() {
                               + "&gyrox=" + String(g.gyro.x)
                               + "&gyroy=" + String(g.gyro.y)
                               + "&gyroz=" + String(g.gyro.z);
-  }
+  // }
   HTTPClient http;
   String serverPath = server_url + "/upload";
   // Serial.print("serverPath: "); Serial.println(serverPath);
   http.begin(serverPath.c_str());
   http.addHeader("Content-Type", "application/x-www-form-urlencoded");
-  String httpRequestData = queryString;
+  String httpRequestData = queryString + "&deviceID=" + String(deviceID);
   int httpResponseCode = http.POST(httpRequestData);
   if (httpResponseCode>0) {
     Serial.print("HTTP Response code: ");
