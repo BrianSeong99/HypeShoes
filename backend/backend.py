@@ -77,7 +77,7 @@ def logout():
     # if get_email() is not None:
     global email
     if email is not None:
-        email = ""
+        email = None
         return "signed out"
     else:
         return "main page"
