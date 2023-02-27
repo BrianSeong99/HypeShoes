@@ -16,13 +16,13 @@
 // const char* fmtMemCk = "Free: %d\tMaxAlloc: %d\t PSFree: %d\n";
 // #define MEMCK Serial.printf(fmtMemCk,ESP.getFreeHeap(),ESP.getMaxAllocHeap(),ESP.getFreePsram())
 
-const char *ssid = "HJHJHJ";
-const char *password = "HJ1211HJ1211";
+const char *ssid = "UW MPSK";
+const char *password = "4DMNt=y4~r";
 
 // Set web server port number to 80
 AsyncWebServer server(80);
 
-String server_url = "http://10.0.0.92:5001/esp32"; // Location to send POSTed data
+String server_url = "http://10.19.167.31:5001/esp32"; // Location to send POSTed data
 
 Adafruit_ADS1115 ads;  /* Use this for the 16-bit version */
 Adafruit_MPU6050 mpu;
@@ -140,6 +140,7 @@ void handleRecording(bool isRecording) {
 
 void setup(void) {
   Serial.begin(115200);
+  Serial.println(WiFi.macAddress());
   pinMode(fsr4Pin, INPUT);
   Wire.begin(I2C_SDA, I2C_SCL, 1000000);
 
