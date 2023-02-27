@@ -10,15 +10,22 @@ def signup_handler(request_method, fullname, email, pw1, pw2):
   if request_method == "POST":
     user_found = get_user_with_name(fullname)
     email_found = get_user_with_email(email)
+    print(type(user_found))
+    print(email_found)
     if user_found:
       message = 'There already is a user by that name'
+      return message
     if email_found:
       message = 'This email already exists in database'
+      return message
     if pw1 != pw2:
       message = 'Passwords should match!'
     else:
       hashed = bcrypt.hashpw(pw2.encode('utf-8'), bcrypt.gensalt())
-      user_input = {'name': fullname, 'email': email, 'password': hashed.decode("UTF-8"), 'records': []}
+      user_input = {
+        'name': fullname, 'email': email, 'password': hashed.decode("UTF-8"), 
+        'records': [], "devices": []
+      }
       insert_new_user(user_input)
       user_data = get_user_with_email(email)
       new_email = user_data['email']

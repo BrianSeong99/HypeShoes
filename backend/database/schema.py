@@ -6,7 +6,8 @@ user_schema = {
     "password": {"type": "string"},
     # "age": {"type": "int"},
     # "gender": {"type": "string"},
-    "records": {"type": "array"} # list of object ids of all records
+    "records": {"type": "array"}, # list of object ids of all records
+    "devices": {"type": "array"}
   },
 }
 
