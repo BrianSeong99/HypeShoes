@@ -2,7 +2,6 @@ from flask import Flask
 from flask import request
 from os import environ
 
-from database.schema import new_or_update_user
 from request_handler.esp_requests import *
 from request_handler.client_requests import *
 from request_handler.login_requests import *

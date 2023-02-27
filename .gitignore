@@ -1,2 +1,5 @@
 backend/__pycache__/
 backend/.env
+backend/tools/__pycache__/
+backend/request_handler/__pycache__/
+backend/database/__pycache__/

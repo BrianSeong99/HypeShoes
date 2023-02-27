@@ -1,5 +1,3 @@
-from jsonschema import validate
-
 user_schema = {
   "type" : "object",
   "properties" : {
@@ -20,7 +18,3 @@ record_schema = {
     # TODO: processed_data
   }
 }
-
-def new_or_update_user(data):
-  validate(instance=data, schema=user_schema)
-  print("there")

@@ -8,18 +8,18 @@ def get_is_upload():
 def set_is_upload(val):
   g.is_upload = val
 
-def get_device_1_ip():
-  if 'device_1_ip' not in g:
-    g.device_1_ip = "0.0.0.0"
-  return g.device_1_ip
+def get_device_left_ip():
+  if 'device_left_ip' not in g:
+    g.device_left_ip = "0.0.0.0"
+  return g.device_left_ip
 
-def set_device_1_ip(val):
-  g.device_1_ip = val
+def set_device_left_ip(val):
+  g.device_right_ip = val
 
-def get_device_2_ip():
-  if 'device_2_ip' not in g:
-    g.device_2_ip = "0.0.0.0"
-  return g.device_2_ip
+def get_device_right_ip():
+  if 'device_right_ip' not in g:
+    g.device_right_ip = "0.0.0.0"
+  return g.device_right_ip
 
-def set_device_2_ip(val):
+def set_device_right_ip(val):
   g.device_2_ip = val
