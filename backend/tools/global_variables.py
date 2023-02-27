@@ -1,4 +1,4 @@
-from flask import g
+from flask import g, session
 
 def get_is_upload():
   if 'is_upload' not in g:
@@ -23,3 +23,14 @@ def get_device_right_ip():
 
 def set_device_right_ip(val):
   g.device_2_ip = val
+
+# not working..
+def get_email():
+  print("getemail: ", 'email' not in g)
+  if 'email' not in g:
+    g.email = None
+  return g.email
+
+# not working..
+def set_email(val):
+  g.email = val

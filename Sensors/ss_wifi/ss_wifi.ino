@@ -89,6 +89,8 @@ void registerDevice() {
   if (httpResponseCode>0) {
     Serial.print("HTTP Response code: ");
     Serial.println(httpResponseCode);
+    String payload = http.getString();
+    Serial.println(payload);
   }
   else {
     Serial.print("Error code: ");

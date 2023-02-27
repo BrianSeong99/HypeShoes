@@ -1,12 +1,9 @@
-from flask import session, url_for, redirect
 import bcrypt
 
 from database.user import *
 
 def signup_handler(request_method, fullname, email, pw1, pw2):
   message = 'index page'
-  if "email" in session: # later change to redis check userid
-    return redirect(url_for("logged_in"))
   if request_method == "POST":
     user_found = get_user_with_name(fullname)
     email_found = get_user_with_email(email)
@@ -31,40 +28,22 @@ def signup_handler(request_method, fullname, email, pw1, pw2):
       new_email = user_data['email']
       return new_email + " logged_in"
   return message
-
-def logged_in_handler():
-  if "email" in session:
-    email = session["email"]
-    return "logged in " + email
-  else:
-    return redirect(url_for("login"))
   
 def login_handler(request_method, email, pw):
+  print("before", request_method)
   message = 'Please login to your account'
-  if "email" in session:
-    return redirect(url_for("logged_in"))
   if request_method == "POST":
     email_found = get_user_with_email(email)
     if email_found:
       email_val = email_found['email']
       password_check = email_found['password']
-        
+      print("hereerere")
       if bcrypt.checkpw(pw.encode('utf-8'), password_check.encode('utf-8')):
-        session["email"] = email_val
-        return redirect(url_for('logged_in'))
+        return (email_val, True)
       else:
-        if "email" in session:
-          return redirect(url_for("logged_in"))
         message = 'Wrong password'
-        return message
+        return (message, False)
     else:
       message = 'Email not found'
-      return message
-  return message
-
-def logout_handler():
-  if "email" in session:
-    session.pop("email", None)
-    return "signed out"
-  else:
-    return "main page"
+      return (message, False)
+  return (message, False)

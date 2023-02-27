@@ -1,15 +1,18 @@
+from database.user import *
 from tools.global_variables import *
 import time
 
-def register_device_handler(IP, data):
+def register_device_handler(IP, email, data):
+  print("here")
+  message = ''
   device_id = data['deviceID']
   if int(device_id) % 2 == 0 :
     set_device_left_ip(IP)
-    print("Device Registered", get_device_left_ip(), device_id) # database
   else:
     set_device_right_ip(IP)
-    print("Device Registered", get_device_left_ip(), device_id) # database
-  return "Device Registered"
+  message = update_devices_with_email(email, device_id)
+  print(message)
+  return message
 
 def record_status_handler(data):
   if get_is_upload():

@@ -1,19 +1,31 @@
-from flask import Flask
+from flask import Flask, session, redirect, url_for
 from flask import request
+from flask_session import Session
 from os import environ
 
 from request_handler.esp_requests import *
 from request_handler.client_requests import *
 from request_handler.login_requests import *
+from tools.global_variables import *
 
 app = Flask(__name__)
 app.secret_key = environ.get("SECRET_KEY")
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 
 ESP32 = "/esp32"
 USER = "/user"
 
+email = None
+
 @app.route("/signup", methods=['POST', 'GET'])
 def signup():
+    # if "email" in session: # later change to redis check userid
+    # if get_email() is not None:
+    global email
+    if email is not None:
+        return redirect(url_for("logged_in"))
     method = request.method
     fullname = request.form.get("fullname")
     email = request.form.get("email")
@@ -23,18 +35,50 @@ def signup():
 
 @app.route('/logged_in')
 def logged_in():
-    return logged_in_handler()
+    # if "email" in session:
+    # if get_email() is not None:
+    global email
+    if email is not None:
+        # email = session["email"]
+        return "logged in " + email
+    else:
+        return redirect(url_for("login"))
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
+    # if "email" in session:
+    # if get_email() is not None:
+    global email
+    print(email)
+    if email is not None:
+        return redirect(url_for("logged_in"))
     method = request.method
     email = request.form.get("email")
     password = request.form.get("password")
-    return login_handler(method, email, password)
+    (message, status) = login_handler(method, email, password)
+    print("loginnn, ", message)
+    if status:
+        print("login ", message)
+        # session["email"] = message
+        set_email(message)
+        print(email)
+        # print(session["email"])
+        return redirect(url_for('logged_in'))
+    else:
+        # print(session["email"])
+        return message
 
 @app.route("/logout", methods=["POST", "GET"])
-def logout():
-    return logout_handler()
+async def logout():
+    # if "email" in session:
+    #     session.pop("email", None)
+    # if get_email() is not None:
+    global email
+    if email is not None:
+        await set_email("")
+        return "signed out"
+    else:
+        return "main page"
 
 # user initiate or stop recording
 # accessed by user
@@ -50,7 +94,13 @@ def check_upload():
 def register_device():
     deviceIP = request.remote_addr
     data = request.form
-    return register_device_handler(deviceIP, data)
+    # if "email" in session: # later change to redis check userid
+    # if get_email() is not None:
+    global email
+    if email is not None:
+        return register_device_handler(deviceIP, email, data)
+    else:
+        return "Not Loggin yet"
 
 # record the start and stop data
 # accessed by esp32
