@@ -1,7 +1,0 @@
-{
-    "configuration": "PSRAM=disabled,CPUFreq=240,UploadSpeed=921600,DebugLevel=none,EraseFlash=none",
-    "board": "esp32:esp32:heltec_wifi_kit_32",
-    "programmer": "esptool",
-    "port": "/dev/tty.usbserial-02I203X8",
-    "sketch": "sensors/ss_wifi/ss_wifi.ino"
-}
