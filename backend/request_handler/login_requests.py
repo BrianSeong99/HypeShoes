@@ -30,14 +30,12 @@ def signup_handler(request_method, fullname, email, pw1, pw2):
   return message
   
 def login_handler(request_method, email, pw):
-  print("before", request_method)
   message = 'Please login to your account'
   if request_method == "POST":
     email_found = get_user_with_email(email)
     if email_found:
       email_val = email_found['email']
       password_check = email_found['password']
-      print("hereerere")
       if bcrypt.checkpw(pw.encode('utf-8'), password_check.encode('utf-8')):
         return (email_val, True)
       else:
