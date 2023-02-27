@@ -19,7 +19,7 @@ def start_new_record(email, device_id):
   users_col.update_one({"email": email}, {"$set": {"records": records}})
   return entry.inserted_id
 
-def insert_new_entry(data, record_id):
+def insert_new_entry(data, record_id, timestamp):
   r0 = data['reading0']
   r1 = data['reading1']
   r2 = data['reading2']
@@ -32,7 +32,7 @@ def insert_new_entry(data, record_id):
   gy = data['gyroy']
   gz = data['gyroz']
   device_id = data['deviceID']
-  new_data = [r0, r1, r2, r3, r4, ax, ay, az, gx, gy, gz]
+  new_data = [r0, r1, r2, r3, r4, ax, ay, az, gx, gy, gz, timestamp]
   if int(device_id) % 2 == 0 :
     records_col.update_one({ "_id": ObjectId(record_id) }, { "$push": { "left_sequence_data": new_data } })
   else:
