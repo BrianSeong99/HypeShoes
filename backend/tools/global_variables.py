@@ -26,7 +26,7 @@ def set_device_right_ip(val):
 
 # not working..
 def get_email():
-  print("getemail: ", 'email' not in g)
+  # print("getemail: ", 'email' not in g)
   if 'email' not in g:
     g.email = None
   return g.email

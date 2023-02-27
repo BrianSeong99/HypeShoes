@@ -4,6 +4,8 @@ import requests
 def check_upload_handler(status, frequency):
   left_inactive = get_device_left_ip() == "0.0.0.0"
   right_inactive = get_device_right_ip() == "0.0.0.0"
+  print(get_device_left_ip())
+  print(get_device_right_ip())
   message = ''
   if left_inactive:
     message = "left is inactive"

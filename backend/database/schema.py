@@ -16,6 +16,7 @@ record_schema = {
   "properties": {
     "left_sequence_data": {"type": "array"},
     "right_sequence_data": {"type": "array"},
+    # "devices": {"type": "array"}
     # TODO: processed_data
   }
 }
