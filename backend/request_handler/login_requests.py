@@ -18,7 +18,7 @@ def signup_handler(request_method, fullname, email, pw1, pw2):
       message = 'Passwords should match!'
     else:
       hashed = bcrypt.hashpw(pw2.encode('utf-8'), bcrypt.gensalt())
-      user_input = {'name': fullname, 'email': email, 'password': hashed.decode("UTF-8")}
+      user_input = {'name': fullname, 'email': email, 'password': hashed.decode("UTF-8"), 'records': []}
       insert_new_user(user_input)
       user_data = get_user_with_email(email)
       new_email = user_data['email']
