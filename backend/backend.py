@@ -3,7 +3,6 @@ from flask import request
 from flask_session import Session
 from os import environ
 import requests
-from werkzeug.datastructures import MultiDict
 
 from request_handler.esp_requests import *
 # from request_handler.client_requests import *
