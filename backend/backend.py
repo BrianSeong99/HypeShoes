@@ -111,8 +111,6 @@ def check_upload():
     if right_inactive:
         message = "right is inactive"
     else:
-        print("inside else")
-
         url_right = "http://" + right_IP
         if status == 'true':
             is_upload = True
@@ -120,7 +118,6 @@ def check_upload():
         else:
             is_upload = False
             url_right = url_right + "/stop"
-        print("right url: ", url_right)
 
         message = message + requests.request("GET", url_right, headers={}, data={}).text
     return message
@@ -133,6 +130,7 @@ def get_record_list():
 # get data by record id
 @app.route(USER + "/data/record", methods=["GET"])
 def get_record_data():
+    data = call_antyush_function()
     pass
 
 # register device when booting
