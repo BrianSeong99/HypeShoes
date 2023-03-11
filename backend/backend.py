@@ -186,3 +186,6 @@ def upload_data():
     else:
         insert_new_entry(data, record_id, time.time())
         return "Uploaded"
+    
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5001)

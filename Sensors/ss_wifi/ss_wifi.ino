@@ -22,7 +22,7 @@ const char *password = "4DMNt=y4~r";
 // Set web server port number to 80
 AsyncWebServer server(80);
 
-String server_url = "http://10.19.167.31:5001/esp32"; // Location to send POSTed data
+String server_url = "http://10.19.240.96:5001/esp32"; // Location to send POSTed data
 
 Adafruit_ADS1115 ads;  /* Use this for the 16-bit version */
 Adafruit_MPU6050 mpu;
