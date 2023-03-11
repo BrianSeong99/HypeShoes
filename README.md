@@ -2,7 +2,7 @@
 
 # Describe the technology that you developed.
 
-The technology you have developed involves the use of hardware components such as the ESP32 microcontroller, MPU6050 sensor, ADS1115 analog-to-digital converter, and multiple force sensors. These components are implemented in each shoe to sense the user's movement and gaiting pattern.
+The technology we have developed involves the use of hardware components such as the ESP32 microcontroller, MPU6050 sensor, ADS1115 analog-to-digital converter, and multiple force sensors. These components are implemented in each shoe to sense the user's movement and gaiting pattern.
 
 The MPU6050 sensor is a six-axis motion tracking device that can detect acceleration and angular velocity. The ADS1115 analog-to-digital converter is used to convert the analog signal from the force sensors into digital signals that can be processed by the microcontroller.
 
