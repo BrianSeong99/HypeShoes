@@ -3,6 +3,7 @@ from flask import request
 from flask_session import Session
 from os import environ
 import requests
+import json
 
 from request_handler.esp_requests import *
 # from request_handler.client_requests import *
@@ -123,15 +124,19 @@ def check_upload():
     return message
 
 # get record list
-@app.route(USER + "/data/recordlist", methods=["GET"])
+@app.route(USER + "/data/record/all", methods=["GET"])
 def get_record_list():
     pass
 
 # get data by record id
 @app.route(USER + "/data/record", methods=["GET"])
 def get_record_data():
-    data = call_antyush_function()
-    pass
+    global record_id
+    data = get_record_entry("640bedd7bd0dce80c3323d3c")
+    print(data)
+    print(data.keys())
+    data['_id'] = str(data['_id'])
+    return json.dumps(data)
 
 # register device when booting
 # accessed by esp32
@@ -165,7 +170,7 @@ def record_status():
         if is_recording:
             is_upload = True
             record_id = start_new_record(email, device_id)
-            return "Start Uploading"
+            return record_id
         else:
             is_upload = False
             record_id = None

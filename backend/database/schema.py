@@ -14,6 +14,8 @@ user_schema = {
 record_schema = {
   "type": "object",
   "properties": {
+    "timestamp": {"type": "int"},
+    "devices": {"type": "array"},
     "left_sequence_data": {"type": "array"},
     "right_sequence_data": {"type": "array"},
     # "devices": {"type": "array"}

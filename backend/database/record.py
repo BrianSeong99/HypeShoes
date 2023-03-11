@@ -2,12 +2,13 @@ from database.schema import user_schema
 from jsonschema import validate
 from bson.objectid import ObjectId
 from database.database_variable import *
+import time
 
 records_col = db_v0.records
 users_col = db_v0.users
 
 def start_new_record(email, device_id):
-  new_data = {"left_sequence_data": [], "right_sequence_data": []}
+  new_data = {"timestamp": int(time.time()), "devices": [device_id], "left_sequence_data": [], "right_sequence_data": []}
   validate(instance=new_data, schema=user_schema)
   entry = records_col.insert_one(new_data)
   user = users_col.find_one({"email": email})
@@ -37,3 +38,7 @@ def insert_new_entry(data, record_id, timestamp):
     records_col.update_one({ "_id": ObjectId(record_id) }, { "$push": { "left_sequence_data": new_data } })
   else:
     records_col.update_one({ "_id": ObjectId(record_id) }, { "$push": { "right_sequence_data": new_data } })
+
+def get_record_entry(record_id): 
+  record = records_col.find_one({"_id": ObjectId(record_id)})
+  return record
