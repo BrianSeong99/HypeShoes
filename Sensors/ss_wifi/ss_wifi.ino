@@ -196,11 +196,11 @@ void upload() {
                       + "&reading3=" + String(reading3)
                       + "&reading4=" + String(reading4);
 
-  // Serial.print("0: "); Serial.print(adc0); Serial.print("  "); Serial.print(reading0); Serial.println("V");
-  // Serial.print("1: "); Serial.print(adc1); Serial.print("  "); Serial.print(reading1); Serial.println("V");
-  // Serial.print("2: "); Serial.print(adc2); Serial.print("  "); Serial.print(reading2); Serial.println("V");
-  // Serial.print("3: "); Serial.print(adc3); Serial.print("  "); Serial.print(reading3); Serial.println("V");
-  // Serial.print("4: "); Serial.print(fsr4Read); Serial.print("  "); Serial.print(reading4); Serial.println("V");
+  Serial.print("0: "); Serial.print(adc0); Serial.print("  "); Serial.print(reading0); Serial.println("V");
+  Serial.print("1: "); Serial.print(adc1); Serial.print("  "); Serial.print(reading1); Serial.println("V");
+  Serial.print("2: "); Serial.print(adc2); Serial.print("  "); Serial.print(reading2); Serial.println("V");
+  Serial.print("3: "); Serial.print(adc3); Serial.print("  "); Serial.print(reading3); Serial.println("V");
+  Serial.print("4: "); Serial.print(fsr4Read); Serial.print("  "); Serial.print(reading4); Serial.println("V");
 
   // if(mpu.getMotionInterruptStatus()) {
     /* Get new sensor events with the readings */
@@ -208,12 +208,12 @@ void upload() {
     mpu.getEvent(&a, &g, &temp);
 
     /* Print out the values */
-    // Serial.print("AccelX:"); Serial.print(a.acceleration.x); Serial.print(","); 
-    // Serial.print("AccelY:"); Serial.print(a.acceleration.y); Serial.print(",");
-    // Serial.print("AccelZ:"); Serial.print(a.acceleration.z); Serial.print(", ");
-    // Serial.print("GyroX:"); Serial.print(g.gyro.x); Serial.print(",");
-    // Serial.print("GyroY:"); Serial.print(g.gyro.y); Serial.print(",");
-    // Serial.print("GyroZ:"); Serial.print(g.gyro.z); Serial.println("");
+    Serial.print("AccelX:"); Serial.print(a.acceleration.x); Serial.print(","); 
+    Serial.print("AccelY:"); Serial.print(a.acceleration.y); Serial.print(",");
+    Serial.print("AccelZ:"); Serial.print(a.acceleration.z); Serial.print(", ");
+    Serial.print("GyroX:"); Serial.print(g.gyro.x); Serial.print(",");
+    Serial.print("GyroY:"); Serial.print(g.gyro.y); Serial.print(",");
+    Serial.print("GyroZ:"); Serial.print(g.gyro.z); Serial.println("");
 
     queryString = queryString + "&accelx=" + String(a.acceleration.x)
                               + "&accely=" + String(a.acceleration.y)

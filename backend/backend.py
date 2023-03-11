@@ -1,9 +1,10 @@
-from flask import Flask, session, redirect, url_for
+from flask import Flask, session, redirect, url_for, jsonify
 from flask import request
 from flask_session import Session
 from os import environ
 import requests
 import json
+from flask_cors import CORS
 
 from request_handler.esp_requests import *
 # from request_handler.client_requests import *
@@ -15,6 +16,7 @@ app.secret_key = environ.get("SECRET_KEY")
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
+CORS(app)
 
 ESP32 = "/esp32"
 USER = "/user"
@@ -132,11 +134,9 @@ def get_record_list():
 @app.route(USER + "/data/record", methods=["GET"])
 def get_record_data():
     global record_id
-    data = get_record_entry("640bedd7bd0dce80c3323d3c")
-    print(data)
-    print(data.keys())
+    data = get_record_entry(record_id)
     data['_id'] = str(data['_id'])
-    return json.dumps(data)
+    return jsonify(data), 200, {'Content-Type': 'application/json'}
 
 # register device when booting
 # accessed by esp32

@@ -13,25 +13,118 @@ const chartColors = {
   green: "rgb(75, 192, 192)",
   blue: "rgb(54, 162, 235)",
   purple: "rgb(153, 102, 255)",
-  grey: "rgb(201, 203, 207)"
+  grey: "rgb(201, 203, 207)",
+  black: "rgb(0,0,0)"
 };
 
 const color = Chart.helpers.color;
 const data = {
   datasets: [
     {
-      label: "Dataset 1 (linear interpolation)",
-      backgroundColor: color(chartColors.red)
+      label: "FSR0",
+      backgroundColor: color(chartColors.orange)
         .alpha(0.5)
         .rgbString(),
-      borderColor: chartColors.red,
+      borderColor: chartColors.green,
       fill: false,
       lineTension: 0,
       borderDash: [8, 4],
       data: []
-    }
+    },
+    {
+      label: "FSR1",
+      backgroundColor: color(chartColors.orange)
+        .alpha(0.5)
+        .rgbString(),
+      borderColor: chartColors.blue,
+      fill: false,
+      lineTension: 0,
+      borderDash: [8, 4],
+      data: []
+    },
+    {
+      label: "FSR2",
+      backgroundColor: color(chartColors.orange)
+        .alpha(0.5)
+        .rgbString(),
+      borderColor: chartColors.purple,
+      fill: false,
+      lineTension: 0,
+      borderDash: [8, 4],
+      data: []
+    },
+    {
+      label: "FSR3",
+      backgroundColor: color(chartColors.orange)
+        .alpha(0.5)
+        .rgbString(),
+      borderColor: chartColors.grey,
+      fill: false,
+      lineTension: 0,
+      borderDash: [8, 4],
+      data: []
+    },
+    {
+      label: "FSR4",
+      backgroundColor: color(chartColors.orange)
+        .alpha(0.5)
+        .rgbString(),
+      borderColor: chartColors.black,
+      fill: false,
+      lineTension: 0,
+      borderDash: [8, 4],
+      data: []
+    },
+    // {
+    //   label: "AccelX",
+    //   backgroundColor: color(chartColors.red)
+    //     .alpha(0.5)
+    //     .rgbString(),
+    //   borderColor: chartColors.red,
+    //   fill: false,
+    //   lineTension: 0,
+    //   borderDash: [8, 4],
+    //   data: []
+    // },
+    // {
+    //   label: "AccelY",
+    //   backgroundColor: color(chartColors.orange)
+    //     .alpha(0.5)
+    //     .rgbString(),
+    //   borderColor: chartColors.red,
+    //   fill: false,
+    //   lineTension: 0,
+    //   borderDash: [8, 4],
+    //   data: []
+    // },
+    // {
+    //   label: "AccelZ",
+    //   backgroundColor: color(chartColors.yellow)
+    //     .alpha(0.5)
+    //     .rgbString(),
+    //   borderColor: chartColors.red,
+    //   fill: false,
+    //   lineTension: 0,
+    //   borderDash: [8, 4],
+    //   data: []
+    // }
   ]
 };
+
+const getRecordData = async function() {
+  var requestOptions = {
+    method: 'GET',
+    redirect: 'follow'
+  };
+  
+  let result = await fetch("http://127.0.0.1:5001/user/data/record", requestOptions)
+    .then(response => response.json())
+    .then(result => result)
+    .catch(error => console.log('error', error));
+  
+  // console.log(result['right_sequence_data']);
+  return result['right_sequence_data'];
+}
 
 const options = {
   elements: {
@@ -45,13 +138,45 @@ const options = {
         type: "realtime",
         distribution: "linear",
         realtime: {
-          onRefresh: function(chart) {
+          onRefresh: async function(chart) {
+            let recordData = await getRecordData();
+            console.log(recordData[recordData.length - 1][11]);
+            const now = moment();
             chart.data.datasets[0].data.push({
-              x: moment(),
-              y: Math.random()
+              x: now,
+              y: recordData[recordData.length - 1][0] * 10 / 3.3
             });
+            chart.data.datasets[1].data.push({
+              x: now,
+              y: recordData[recordData.length - 1][1] * 10 / 3.3
+            });
+            chart.data.datasets[2].data.push({
+              x: now,
+              y: recordData[recordData.length - 1][2] * 10 / 3.3
+            });
+            chart.data.datasets[3].data.push({
+              x: now,
+              y: recordData[recordData.length - 1][3] * 10 / 3.3
+            });
+            chart.data.datasets[4].data.push({
+              x: now,
+              y: recordData[recordData.length - 1][4] * 10 / 3.3
+            });
+            // chart.data.datasets[5].data.push({
+            //   x: now,
+            //   y: recordData[recordData.length - 1][5]
+            // });
+            // chart.data.datasets[6].data.push({
+            //   x: now,
+            //   y: recordData[recordData.length - 1][6]
+            // });
+            // chart.data.datasets[7].data.push({
+            //   x: now,
+            //   y: recordData[recordData.length - 1][7]
+            // });
+            console.log(chart.data.datasets[0].data);
           },
-          delay: 3000,
+          delay: 1000,
           time: {
             displayFormat: "h:mm"
           }
@@ -75,7 +200,7 @@ const options = {
       {
         ticks: {
           beginAtZero: true,
-          max: 1
+          max: 4
         }
       }
     ]
