@@ -1,0 +1,115 @@
+name: fitness_flutter
+description: A new Flutter project.
+
+# The following line prevents the package from being accidentally published to
+# pub.dev using `pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  #BloC  
+  flutter_bloc: ^7.0.1
+
+  # Firebase
+  firebase_core: ^1.4.0
+  firebase_auth: ^3.0.1
+  firebase_storage: ^10.0.1
+
+
+  # IOS Icons
+  cupertino_icons: ^1.0.2
+
+  # Page View dots indicator
+  dots_indicator: ^2.0.0
+
+  # Percent circle
+  percent_indicator: ^3.0.1
+
+  # URL launcher
+  url_launcher: ^6.0.9
+
+  # Workout Details sliding up panel
+  sliding_up_panel: ^2.0.0+1
+
+  # Video player
+  video_player: ^2.1.12
+  chewie: 
+    git:
+      url: git@github.com:v1nnk1/chewie.git
+
+
+  # Countdown timer
+  custom_timer: ^0.0.6
+
+  # Image library
+  image_picker: ^0.8.2
+
+  # Reminder notification
+  flutter_local_notifications: ^8.0.0
+
+  # Native timezone
+  flutter_native_timezone: ^2.0.0
+
+  # Permission handler
+  permission_handler: ^8.1.4+2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+
+
+# The following section is specific to Flutter.
+flutter:
+
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/images/onboarding/
+    - assets/images/auth/
+    - assets/images/home/
+    - assets/images/exercises/
+    - assets/icons/home/
+    - assets/icons/workouts/
+    - assets/icons/social_networks/
+    - assets/videos/workouts/
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware.
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+
+  fonts:
+    - family: NotoSansKR
+      fonts:
+        - asset: assets/fonts/NotoSansKR/NotoSansKR-Regular.otf
+        - asset: assets/fonts/NotoSansKR/NotoSansKR-Medium.otf
+          weight: 500
+        - asset: assets/fonts/NotoSansKR/NotoSansKR-Bold.otf
+          weight: 700
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #

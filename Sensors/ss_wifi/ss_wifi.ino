@@ -16,13 +16,15 @@
 // const char* fmtMemCk = "Free: %d\tMaxAlloc: %d\t PSFree: %d\n";
 // #define MEMCK Serial.printf(fmtMemCk,ESP.getFreeHeap(),ESP.getMaxAllocHeap(),ESP.getFreePsram())
 
+// manual setting
 const char *ssid = "UW MPSK";
-const char *password = "4DMNt=y4~r";
+const char *password = "F4iYxp]/a>"; // 4DMNt=y4~r or d76!e6H$^4 or F4iYxp]/a>
+const unsigned long deviceID = 10000001;
+String server_url = "http://10.19.240.96:5001/esp32"; // Location to send POSTed data
 
 // Set web server port number to 80
 AsyncWebServer server(80);
 
-String server_url = "http://10.19.240.96:5001/esp32"; // Location to send POSTed data
 
 Adafruit_ADS1115 ads;  /* Use this for the 16-bit version */
 Adafruit_MPU6050 mpu;
@@ -39,7 +41,6 @@ int frequency = 100;
 const int default_frequency = 100;
 const int pending_frequency = 5000;
 
-const unsigned long deviceID = 10000001;
 
 void setupADS() {
   if (!ads.begin(0x48, &Wire)) {
