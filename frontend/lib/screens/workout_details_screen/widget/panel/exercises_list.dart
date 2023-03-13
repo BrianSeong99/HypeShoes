@@ -125,17 +125,17 @@ class ExerciseCell extends StatelessWidget {
             fontWeight: FontWeight.w400,
           ),
         ),
-        const SizedBox(height: 11),
-        Padding(
-          padding: const EdgeInsets.only(right: 20),
-          child: LinearPercentIndicator(
-            percent: currentExercise.progress,
-            progressColor: ColorConstants.primaryColor,
-            backgroundColor: ColorConstants.primaryColor.withOpacity(0.12),
-            lineHeight: 6,
-            padding: EdgeInsets.zero,
-          ),
-        ),
+        // const SizedBox(height: 11),
+        // Padding(
+        //   padding: const EdgeInsets.only(right: 20),
+        //   child: LinearPercentIndicator(
+        //     percent: currentExercise.progress,
+        //     progressColor: ColorConstants.primaryColor,
+        //     backgroundColor: ColorConstants.primaryColor.withOpacity(0.12),
+        //     lineHeight: 6,
+        //     padding: EdgeInsets.zero,
+        //   ),
+        // ),
       ],
     );
   }

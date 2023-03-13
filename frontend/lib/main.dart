@@ -48,7 +48,8 @@ class _MyAppState extends State<MyApp> {
         scaffoldBackgroundColor: Colors.white,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: isLoggedIn ? TabBarPage() : OnboardingPage(),
+      // home: isLoggedIn ? TabBarPage() : OnboardingPage(),
+      home: TabBarPage(),
     );
   }
 

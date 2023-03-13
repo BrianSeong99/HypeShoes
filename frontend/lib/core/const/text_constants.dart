@@ -72,6 +72,11 @@ class TextConstants {
   static const String armsMinutes = "35";
 
   //Workout screen -> yoga card
+  static const String gaitTitle = "Gait";
+  static const String gaitExercises = "1";
+  static const String gaitMinutes = "1";
+
+  //Workout screen -> yoga card
   static const String yogaTitle = "Yoga";
   static const String yogaExercises = "16";
   static const String yogaMinutes = "52";
@@ -106,6 +111,9 @@ class TextConstants {
   // Workout Details screen -> card1
   static const String reclining = "Reclining to big toe";
   static const int recliningMinutes = 12;
+
+  static const String gaiting = "Gaiting";
+  static const int gaitingMinutes = 1;
 
   // Workout Details screen -> card2
   static const String cowPose = "Cow Pose";

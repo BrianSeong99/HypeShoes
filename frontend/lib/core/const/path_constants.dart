@@ -31,6 +31,7 @@ class PathConstants {
   static const String recicling = 'assets/images/exercises/recicling.png';
 
   //Workouts
+  static const String gait = 'assets/icons/workouts/gait.png';
   static const String yoga = 'assets/icons/workouts/yoga.png';
   static const String pilates = 'assets/icons/workouts/pilates.png';
   static const String fullBody = 'assets/icons/workouts/full_body.png';

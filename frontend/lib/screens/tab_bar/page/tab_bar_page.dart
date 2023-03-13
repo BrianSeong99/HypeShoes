@@ -22,8 +22,9 @@ class TabBarPage extends StatelessWidget {
         builder: (context, state) {
           final bloc = BlocProvider.of<TabBarBloc>(context);
           return Scaffold(
-            body: _createBody(context, bloc.currentIndex),
-            bottomNavigationBar: _createdBottomTabBar(context),
+            // body: _createBody(context, bloc.currentIndex),
+            // bottomNavigationBar: _createdBottomTabBar(context),
+            body: WorkoutsPage(),
           );
         },
       ),
