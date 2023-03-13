@@ -18,8 +18,8 @@
 
 // manual setting
 const char *ssid = "UW MPSK";
-const char *password = "F4iYxp]/a>"; // 4DMNt=y4~r or d76!e6H$^4 or F4iYxp]/a>
-const unsigned long deviceID = 10000001;
+const char *password = "F4iYxp]/a>"; // 4DMNt=y4~r or d76!e6H$^4 is left or F4iYxp]/a> is right
+const unsigned long deviceID = 10000001; // 10000000 is left, 10000001 is right
 String server_url = "http://10.19.240.96:5001/esp32"; // Location to send POSTed data
 
 // Set web server port number to 80
@@ -190,6 +190,11 @@ void upload() {
   reading2 = adc2 * (current_voltage / 32767.0);
   reading3 = adc3 * (current_voltage / 32767.0);
   reading4 = fsr4voltage;
+
+  reading0 = reading0 >= 0 ? reading0 : 0;
+  reading1 = reading0 >= 0 ? reading1 : 0;
+  reading2 = reading0 >= 0 ? reading2 : 0;
+  reading3 = reading0 >= 0 ? reading3 : 0;
 
   String queryString = "reading0=" + String(reading0) 
                       + "&reading1=" + String(reading1)
