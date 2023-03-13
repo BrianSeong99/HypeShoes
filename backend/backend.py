@@ -26,6 +26,7 @@ left_IP = "0.0.0.0"
 right_IP = "0.0.0.0"
 is_upload = False
 record_id = None
+record_id_prev = None
 
 @app.route("/signup", methods=['POST', 'GET'])
 def signup():
@@ -140,6 +141,12 @@ def get_record_data():
     data['_id'] = str(data['_id'])
     return jsonify(data), 200, {'Content-Type': 'application/json'}
 
+@app.route(USER + "/data/record/result", methods=["GET"])
+def get_record_data_result():
+    global record_id_prev
+    result = get_record_result(record_id_prev)
+    return jsonify(result), 200, {'Content-Type': 'application/json'}
+
 # register device when booting
 # accessed by esp32
 @app.route(ESP32 + "/register", methods=["POST"])
@@ -163,7 +170,7 @@ def register_device():
 # accessed by esp32
 @app.route(ESP32 + "/record", methods=["POST"])
 def record_status():
-    global is_upload, record_id
+    global is_upload, record_id, record_id_prev
     data = request.form
     # return record_status_handler(data)
     if is_upload:
@@ -177,6 +184,7 @@ def record_status():
             return record_id
         else:
             is_upload = False
+            record_id_prev = record_id
             record_id = None
             print(" Stop Recording: ", device_id, False)
             return "Stop Recording"

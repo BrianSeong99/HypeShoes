@@ -3,6 +3,7 @@ from jsonschema import validate
 from bson.objectid import ObjectId
 from database.database_variable import *
 import time
+import math
 
 records_col = db_v0.records
 users_col = db_v0.users
@@ -42,3 +43,56 @@ def insert_new_entry(data, record_id, timestamp):
 def get_record_entry(record_id): 
   record = records_col.find_one({"_id": ObjectId(record_id)})
   return record
+
+def get_stride_average(record_data):
+  gravity = 9.81
+  stride_threshold = 0.4 # in m/s^2
+
+  vel = [0, 0, 0]
+  pos = [0, 0, 0]
+  stride_start = False
+  stride_end = False
+  last_vel = 0
+  sample_rate = 100
+
+  counter = 0
+
+  for index, data in enumerate(record_data):
+    lax = (float(data[5]) / 16384.0) * gravity
+    lay = (float(data[6]) / 16384.0) * gravity
+    laz = (float(data[7]) / 16384.0) * gravity
+
+    vel[0] += lax * (1/sample_rate)
+    vel[1] += lay * (1/sample_rate)
+    vel[2] += laz * (1/sample_rate)
+    pos[0] += vel[0] * (1/sample_rate)
+    pos[1] += vel[1] * (1/sample_rate)
+    pos[2] += vel[2] * (1/sample_rate)
+
+    # Check for stride start
+    if lax > stride_threshold and not stride_start:
+        stride_start = True
+
+    # Check for stride end
+    if last_vel > 0 and vel[1] < 0 and stride_start:
+        stride_end = True
+
+    if stride_end:
+        stride_length = math.sqrt((pos[0]**2) + (pos[1]**2) + (pos[2]**2))
+        print("Stride length: %.2f meters" % stride_length)
+        counter = counter + stride_length
+        stride_start = False
+        stride_end = False
+    
+    last_vel = vel[1]
+  
+  return counter / len(data)
+
+def get_record_result(record_id_prev):
+  record_id_prev = "640f2bdea0640c3697ba5f01"
+  record = records_col.find_one({"_id": ObjectId(record_id_prev)})
+  left_stride = get_stride_average(record['left_sequence_data'])
+  right_stride = get_stride_average(record['right_sequence_data'])
+  print("stride", left_stride, right_stride)
+  return [left_stride, right_stride]
+
