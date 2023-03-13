@@ -19,12 +19,12 @@ def update_devices_with_email(email, deviceID):
   if user == None:
     return 'user not found'
   devices = user['devices']
-  if devices == [] or devices is None:
+  if devices is None or devices == []:
     devices = [deviceID]
   elif deviceID in devices:
     return "already Registered"
   else:
-    devices = devices.append(deviceID)
+    devices.append(deviceID)
   users_col.update_one({"email": email}, {"$set": {"devices": devices}})
   user = users_col.find_one({"email": email})
   devices = user['devices']

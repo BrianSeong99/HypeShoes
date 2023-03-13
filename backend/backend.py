@@ -170,6 +170,8 @@ def record_status():
         device_id = data['deviceID']
         is_recording = bool(data['record'])
         if is_recording:
+            if record_id is not None:
+                return "already started"
             is_upload = True
             record_id = start_new_record(email, device_id)
             return record_id
