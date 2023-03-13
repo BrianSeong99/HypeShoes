@@ -69,6 +69,7 @@ dependencies:
 
   # Permission handler
   permission_handler: ^8.1.4+2
+  syncfusion_flutter_charts: ^20.4.53
 
 dev_dependencies:
   flutter_test:

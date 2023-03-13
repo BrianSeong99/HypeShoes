@@ -22,3 +22,9 @@ class PauseTappedEvent extends StartWorkoutEvent {
 }
 
 class ChangeTimerEvent extends StartWorkoutEvent {}
+
+class DuringTimerEvent extends StartWorkoutEvent {
+  final int time;
+
+  DuringTimerEvent({required this.time});
+}

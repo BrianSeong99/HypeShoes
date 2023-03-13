@@ -22,3 +22,9 @@ class PauseTimerState extends StartWorkoutState {
     required this.currentTime,
   });
 }
+
+class DuringTimerState extends StartWorkoutState {
+  final int time;
+
+  DuringTimerState({required this.time});
+}

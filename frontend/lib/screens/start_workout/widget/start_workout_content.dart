@@ -11,6 +11,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_charts/sparkcharts.dart';
+
+import 'package:fitness_flutter/screens/start_workout/data/live_data.dart';
+
+
 class StartWorkoutContent extends StatelessWidget {
   final ExerciseData exercise;
   final ExerciseData? nextExercise;
@@ -37,21 +43,51 @@ class StartWorkoutContent extends StatelessWidget {
         children: [
           _createBackButton(context),
           const SizedBox(height: 23),
-          _createVideo(context),
-          const SizedBox(height: 8),
-          Expanded(
-            child: ListView(children: [
-              _createTitle(),
-              const SizedBox(height: 9),
-              _createDescription(),
-              const SizedBox(height: 30),
-              _createSteps(),
-            ]),
-          ),
+          // _createVideo(context),
+          // const SizedBox(height: 8),
+          // Expanded(
+          //   child: ListView(children: [
+          //     _createTitle(),
+          //     const SizedBox(height: 9),
+          //     _createDescription(),
+          //     const SizedBox(height: 30),
+          //     _createSteps(),
+          //   ]),
+          // ),
+          _createChart(context),
           _createTimeTracker(context),
         ],
       ),
     );
+  }
+
+  Widget _createChart(BuildContext context) {
+    final bloc = BlocProvider.of<StartWorkoutBloc>(context);
+    return SfCartesianChart(
+      series: <LineSeries<LiveData, int>>[
+        LineSeries<LiveData, int>(
+          onRendererCreated: (ChartSeriesController controller) {
+            bloc.chartSeriesController = controller;
+          },
+          dataSource: bloc.chartData,
+          color: const Color.fromRGBO(192, 108, 132, 1),
+          xValueMapper: (LiveData sales, _) => sales.time,
+          yValueMapper: (LiveData sales, _) => sales.value,
+        )
+      ],
+      primaryXAxis: NumericAxis(
+        majorGridLines: const MajorGridLines(width: 0),
+        edgeLabelPlacement: EdgeLabelPlacement.shift,
+        interval: 3,
+        title: AxisTitle(text: 'Time (seconds)')
+      ),
+      primaryYAxis: NumericAxis(
+        axisLine: const AxisLine(width: 0),
+        majorTickLines: const MajorTickLines(size: 0),
+        title: AxisTitle(text: 'Internet speed (Mbps)')
+      )
+    );
+
   }
 
   Widget _createBackButton(BuildContext context) {
