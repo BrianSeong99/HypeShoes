@@ -29,8 +29,8 @@ class StartWorkoutPage extends StatelessWidget {
       create: (context) {
         // var request = http.Request('POST', Uri.parse('http://127.0.0.1:5001/user/record?status=true&frequency=1000'));
         // request.send();
-
-        http.post(Uri.parse('http://127.0.0.1:5001/user/record?status=true&frequency=1000'))
+        final bloc = StartWorkoutBloc();
+        http.post(Uri.parse('http://127.0.0.1:5001/user/record?status=true&frequency=' + bloc.frequency.toString()))
           .then((response) {
           if (response.statusCode == 200) {
             // If the server did return a 200 OK response,
@@ -46,7 +46,6 @@ class StartWorkoutPage extends StatelessWidget {
           // Handle errors in the bloc
           print("beginning error");
         });
-        final bloc = StartWorkoutBloc();
         bloc.leftSensor0 = [
           LiveData(time: 0, value: 0),
           LiveData(time: 1, value: 0),
@@ -87,7 +86,7 @@ class StartWorkoutPage extends StatelessWidget {
         bloc.rightGyro0 = bloc.leftSensor0;
         bloc.rightGyro1 = bloc.leftSensor0;
         bloc.rightGyro2 = bloc.leftSensor0;
-        bloc.timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        bloc.timer = Timer.periodic(Duration(milliseconds: bloc.frequency), (timer) {
           bloc.updateDataSource();
         });
         return bloc;

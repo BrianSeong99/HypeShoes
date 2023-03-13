@@ -107,7 +107,7 @@ class StartWorkoutContent extends StatelessWidget {
             onRendererCreated: (ChartSeriesController controller) {
               bloc.chartSeriesControllerLeftPressure2 = controller;
             },
-            dataSource: bloc.leftSensor1,
+            dataSource: bloc.leftSensor2,
             color: Color.fromARGB(255, 11, 207, 207),
             xValueMapper: (LiveData sales, _) => sales.time,
             yValueMapper: (LiveData sales, _) => sales.value,
@@ -116,7 +116,7 @@ class StartWorkoutContent extends StatelessWidget {
             onRendererCreated: (ChartSeriesController controller) {
               bloc.chartSeriesControllerLeftPressure3 = controller;
             },
-            dataSource: bloc.leftSensor1,
+            dataSource: bloc.leftSensor3,
             color: Color.fromARGB(255, 154, 154, 3),
             xValueMapper: (LiveData sales, _) => sales.time,
             yValueMapper: (LiveData sales, _) => sales.value,

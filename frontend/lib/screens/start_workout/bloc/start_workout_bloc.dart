@@ -66,6 +66,8 @@ class StartWorkoutBloc extends Bloc<StartWorkoutEvent, StartWorkoutState> {
 
   late Timer? timer;
 
+  int frequency = 500;
+
   void stopTimer() {
     timer?.cancel();
     timer = null;
@@ -123,7 +125,7 @@ class StartWorkoutBloc extends Bloc<StartWorkoutEvent, StartWorkoutState> {
       }
 
       if (body['right_sequence_data'].length > 1) {
-        final rightData = body['left_sequence_data'][body['right_sequence_data'].length-1];
+        final rightData = body['right_sequence_data'][body['right_sequence_data'].length-1];
         rightSensor0.add(LiveData(time: time, value: num.parse(rightData[0])));
         rightSensor1.add(LiveData(time: time, value: num.parse(rightData[1])));
         rightSensor2.add(LiveData(time: time, value: num.parse(rightData[2])));
