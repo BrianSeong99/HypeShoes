@@ -15,6 +15,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
 import 'package:fitness_flutter/screens/start_workout/data/live_data.dart';
+import 'package:http/http.dart' as http;
 
 
 class StartWorkoutContent extends StatelessWidget {
@@ -45,49 +46,286 @@ class StartWorkoutContent extends StatelessWidget {
           const SizedBox(height: 23),
           // _createVideo(context),
           // const SizedBox(height: 8),
-          // Expanded(
-          //   child: ListView(children: [
-          //     _createTitle(),
-          //     const SizedBox(height: 9),
-          //     _createDescription(),
-          //     const SizedBox(height: 30),
-          //     _createSteps(),
-          //   ]),
-          // ),
-          _createChart(context),
+          Expanded(
+            child: ListView(children: [
+              _createTitle(),
+              const SizedBox(height: 9),
+              _createDescription(),
+              const SizedBox(height: 30),
+              // _createSteps(),
+              _createSubTitle("Left", "Pressure"),
+              const SizedBox(height: 3),
+              _createChart("Left", "Pressure", context),
+              const SizedBox(height: 9),
+
+              _createSubTitle("Right", "Pressure"),
+              const SizedBox(height: 3),
+              _createChart("Right", "Pressure", context),
+              const SizedBox(height: 9),
+
+              _createSubTitle("Left", "IMU"),
+              const SizedBox(height: 3),
+              _createChart("Left", "IMU", context),
+              const SizedBox(height: 9),
+
+              _createSubTitle("Right", "IMU"),
+              const SizedBox(height: 3),
+              _createChart("Right", "IMU", context),
+              const SizedBox(height: 9),
+            ]),
+          ),
           _createTimeTracker(context),
         ],
       ),
     );
   }
 
-  Widget _createChart(BuildContext context) {
+  Widget _createChart(String leftOrRight, String pressureOrIMU, BuildContext context) {
     final bloc = BlocProvider.of<StartWorkoutBloc>(context);
-    return SfCartesianChart(
-      series: <LineSeries<LiveData, int>>[
-        LineSeries<LiveData, int>(
-          onRendererCreated: (ChartSeriesController controller) {
-            bloc.chartSeriesController = controller;
-          },
-          dataSource: bloc.chartData,
-          color: const Color.fromRGBO(192, 108, 132, 1),
-          xValueMapper: (LiveData sales, _) => sales.time,
-          yValueMapper: (LiveData sales, _) => sales.value,
+    if (leftOrRight == "Left" && pressureOrIMU == "Pressure") {
+      return SfCartesianChart(
+        series: <LineSeries<LiveData, int>>[
+          LineSeries<LiveData, int>(
+            onRendererCreated: (ChartSeriesController controller) {
+              bloc.chartSeriesControllerLeftPressure0 = controller;
+            },
+            dataSource: bloc.leftSensor0,
+            color: Color.fromARGB(255, 156, 19, 58),
+            xValueMapper: (LiveData sales, _) => sales.time,
+            yValueMapper: (LiveData sales, _) => sales.value,
+          ),
+          LineSeries<LiveData, int>(
+            onRendererCreated: (ChartSeriesController controller) {
+              bloc.chartSeriesControllerLeftPressure1 = controller;
+            },
+            dataSource: bloc.leftSensor1,
+            color: Color.fromARGB(255, 75, 150, 5),
+            xValueMapper: (LiveData sales, _) => sales.time,
+            yValueMapper: (LiveData sales, _) => sales.value,
+          ),
+          LineSeries<LiveData, int>(
+            onRendererCreated: (ChartSeriesController controller) {
+              bloc.chartSeriesControllerLeftPressure2 = controller;
+            },
+            dataSource: bloc.leftSensor1,
+            color: Color.fromARGB(255, 11, 207, 207),
+            xValueMapper: (LiveData sales, _) => sales.time,
+            yValueMapper: (LiveData sales, _) => sales.value,
+          ),
+          LineSeries<LiveData, int>(
+            onRendererCreated: (ChartSeriesController controller) {
+              bloc.chartSeriesControllerLeftPressure3 = controller;
+            },
+            dataSource: bloc.leftSensor1,
+            color: Color.fromARGB(255, 154, 154, 3),
+            xValueMapper: (LiveData sales, _) => sales.time,
+            yValueMapper: (LiveData sales, _) => sales.value,
+          )
+        ],
+        primaryXAxis: NumericAxis(
+          majorGridLines: const MajorGridLines(width: 0),
+          edgeLabelPlacement: EdgeLabelPlacement.shift,
+          interval: 3,
+          title: AxisTitle(text: 'Time (seconds)')
+        ),
+        primaryYAxis: NumericAxis(
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0),
+          // title: AxisTitle(text: '')
         )
-      ],
-      primaryXAxis: NumericAxis(
-        majorGridLines: const MajorGridLines(width: 0),
-        edgeLabelPlacement: EdgeLabelPlacement.shift,
-        interval: 3,
-        title: AxisTitle(text: 'Time (seconds)')
-      ),
-      primaryYAxis: NumericAxis(
-        axisLine: const AxisLine(width: 0),
-        majorTickLines: const MajorTickLines(size: 0),
-        title: AxisTitle(text: 'Internet speed (Mbps)')
-      )
-    );
-
+      );
+    } else if (leftOrRight == "Right" && pressureOrIMU == "Pressure") {
+      return SfCartesianChart(
+        series: <LineSeries<LiveData, int>>[
+          LineSeries<LiveData, int>(
+            onRendererCreated: (ChartSeriesController controller) {
+              bloc.chartSeriesControllerRightPressure0 = controller;
+            },
+            dataSource: bloc.rightSensor0,
+            color: Color.fromARGB(255, 156, 19, 58),
+            xValueMapper: (LiveData sales, _) => sales.time,
+            yValueMapper: (LiveData sales, _) => sales.value,
+          ),
+          LineSeries<LiveData, int>(
+            onRendererCreated: (ChartSeriesController controller) {
+              bloc.chartSeriesControllerRightPressure1 = controller;
+            },
+            dataSource: bloc.rightSensor1,
+            color: Color.fromARGB(255, 75, 150, 5),
+            xValueMapper: (LiveData sales, _) => sales.time,
+            yValueMapper: (LiveData sales, _) => sales.value,
+          ),
+          LineSeries<LiveData, int>(
+            onRendererCreated: (ChartSeriesController controller) {
+              bloc.chartSeriesControllerRightPressure2 = controller;
+            },
+            dataSource: bloc.rightSensor2,
+            color: Color.fromARGB(255, 11, 207, 207),
+            xValueMapper: (LiveData sales, _) => sales.time,
+            yValueMapper: (LiveData sales, _) => sales.value,
+          ),
+          LineSeries<LiveData, int>(
+            onRendererCreated: (ChartSeriesController controller) {
+              bloc.chartSeriesControllerRightPressure3 = controller;
+            },
+            dataSource: bloc.rightSensor3,
+            color: Color.fromARGB(255, 154, 154, 3),
+            xValueMapper: (LiveData sales, _) => sales.time,
+            yValueMapper: (LiveData sales, _) => sales.value,
+          )
+        ],
+        primaryXAxis: NumericAxis(
+          majorGridLines: const MajorGridLines(width: 0),
+          edgeLabelPlacement: EdgeLabelPlacement.shift,
+          interval: 3,
+          title: AxisTitle(text: 'Time (seconds)')
+        ),
+        primaryYAxis: NumericAxis(
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0),
+          // title: AxisTitle(text: '')
+        )
+      );
+    } else if (leftOrRight == "Left" && pressureOrIMU == "IMU") {
+      return SfCartesianChart(
+        series: <LineSeries<LiveData, int>>[
+          LineSeries<LiveData, int>(
+            onRendererCreated: (ChartSeriesController controller) {
+              bloc.chartSeriesControllerLeftAccel0 = controller;
+            },
+            dataSource: bloc.leftAccel0,
+            color: Color.fromARGB(255, 156, 19, 58),
+            xValueMapper: (LiveData sales, _) => sales.time,
+            yValueMapper: (LiveData sales, _) => sales.value,
+          ),
+          LineSeries<LiveData, int>(
+            onRendererCreated: (ChartSeriesController controller) {
+              bloc.chartSeriesControllerLeftAccel1 = controller;
+            },
+            dataSource: bloc.leftAccel1,
+            color: Color.fromARGB(255, 75, 150, 5),
+            xValueMapper: (LiveData sales, _) => sales.time,
+            yValueMapper: (LiveData sales, _) => sales.value,
+          ),
+          LineSeries<LiveData, int>(
+            onRendererCreated: (ChartSeriesController controller) {
+              bloc.chartSeriesControllerLeftAccel2 = controller;
+            },
+            dataSource: bloc.leftAccel2,
+            color: Color.fromARGB(255, 11, 207, 207),
+            xValueMapper: (LiveData sales, _) => sales.time,
+            yValueMapper: (LiveData sales, _) => sales.value,
+          ),
+          LineSeries<LiveData, int>(
+            onRendererCreated: (ChartSeriesController controller) {
+              bloc.chartSeriesControllerLeftGyro0 = controller;
+            },
+            dataSource: bloc.leftGyro0,
+            color: Color.fromARGB(255, 154, 154, 3),
+            xValueMapper: (LiveData sales, _) => sales.time,
+            yValueMapper: (LiveData sales, _) => sales.value,
+          ),
+          LineSeries<LiveData, int>(
+            onRendererCreated: (ChartSeriesController controller) {
+              bloc.chartSeriesControllerLeftGyro1 = controller;
+            },
+            dataSource: bloc.leftGyro1,
+            color: Color.fromARGB(255, 78, 19, 156),
+            xValueMapper: (LiveData sales, _) => sales.time,
+            yValueMapper: (LiveData sales, _) => sales.value,
+          ),
+          LineSeries<LiveData, int>(
+            onRendererCreated: (ChartSeriesController controller) {
+              bloc.chartSeriesControllerLeftGyro2 = controller;
+            },
+            dataSource: bloc.leftGyro2,
+            color: Color.fromARGB(255, 45, 27, 7),
+            xValueMapper: (LiveData sales, _) => sales.time,
+            yValueMapper: (LiveData sales, _) => sales.value,
+          ),
+        ],
+        primaryXAxis: NumericAxis(
+          majorGridLines: const MajorGridLines(width: 0),
+          edgeLabelPlacement: EdgeLabelPlacement.shift,
+          interval: 3,
+          title: AxisTitle(text: 'Time (seconds)')
+        ),
+        primaryYAxis: NumericAxis(
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0),
+          // title: AxisTitle(text: '')
+        )
+      );
+    }
+    return SfCartesianChart(
+        series: <LineSeries<LiveData, int>>[
+          LineSeries<LiveData, int>(
+            onRendererCreated: (ChartSeriesController controller) {
+              bloc.chartSeriesControllerRightAccel0 = controller;
+            },
+            dataSource: bloc.rightAccel0,
+            color: Color.fromARGB(255, 156, 19, 58),
+            xValueMapper: (LiveData sales, _) => sales.time,
+            yValueMapper: (LiveData sales, _) => sales.value,
+          ),
+          LineSeries<LiveData, int>(
+            onRendererCreated: (ChartSeriesController controller) {
+              bloc.chartSeriesControllerRightAccel1 = controller;
+            },
+            dataSource: bloc.rightAccel1,
+            color: Color.fromARGB(255, 75, 150, 5),
+            xValueMapper: (LiveData sales, _) => sales.time,
+            yValueMapper: (LiveData sales, _) => sales.value,
+          ),
+          LineSeries<LiveData, int>(
+            onRendererCreated: (ChartSeriesController controller) {
+              bloc.chartSeriesControllerRightAccel2 = controller;
+            },
+            dataSource: bloc.rightAccel2,
+            color: Color.fromARGB(255, 11, 207, 207),
+            xValueMapper: (LiveData sales, _) => sales.time,
+            yValueMapper: (LiveData sales, _) => sales.value,
+          ),
+          LineSeries<LiveData, int>(
+            onRendererCreated: (ChartSeriesController controller) {
+              bloc.chartSeriesControllerRightGyro0 = controller;
+            },
+            dataSource: bloc.rightGyro0,
+            color: Color.fromARGB(255, 154, 154, 3),
+            xValueMapper: (LiveData sales, _) => sales.time,
+            yValueMapper: (LiveData sales, _) => sales.value,
+          ),
+          LineSeries<LiveData, int>(
+            onRendererCreated: (ChartSeriesController controller) {
+              bloc.chartSeriesControllerRightGyro1 = controller;
+            },
+            dataSource: bloc.rightGyro1,
+            color: Color.fromARGB(255, 78, 19, 156),
+            xValueMapper: (LiveData sales, _) => sales.time,
+            yValueMapper: (LiveData sales, _) => sales.value,
+          ),
+          LineSeries<LiveData, int>(
+            onRendererCreated: (ChartSeriesController controller) {
+              bloc.chartSeriesControllerRightGyro2 = controller;
+            },
+            dataSource: bloc.rightGyro2,
+            color: Color.fromARGB(255, 45, 27, 7),
+            xValueMapper: (LiveData sales, _) => sales.time,
+            yValueMapper: (LiveData sales, _) => sales.value,
+          ),
+        ],
+        primaryXAxis: NumericAxis(
+          majorGridLines: const MajorGridLines(width: 0),
+          edgeLabelPlacement: EdgeLabelPlacement.shift,
+          interval: 3,
+          title: AxisTitle(text: 'Time (seconds)')
+        ),
+        primaryYAxis: NumericAxis(
+          axisLine: const AxisLine(width: 0),
+          majorTickLines: const MajorTickLines(size: 0),
+          // title: AxisTitle(text: '')
+        )
+      );
   }
 
   Widget _createBackButton(BuildContext context) {
@@ -136,6 +374,10 @@ class StartWorkoutContent extends StatelessWidget {
 
   Widget _createTitle() {
     return Text(exercise.title, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold));
+  }
+
+  Widget _createSubTitle(String leftOrRight, String pressureOrIMU) {
+    return Text(leftOrRight + " " + pressureOrIMU, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold));
   }
 
   Widget _createDescription() {
@@ -225,6 +467,24 @@ class StartWorkoutContent extends StatelessWidget {
             );
           }
         } else {
+          http.post(Uri.parse('http://127.0.0.1:5001/user/record?status=false&frequency=1000'))
+          .then((response) {
+            if (response.statusCode == 200) {
+              // If the server did return a 200 OK response,
+              // parse the JSON data and update the bloc's state
+              print("ending successful");
+            } else {
+              // If the server did not return a 200 OK response,
+              // throw an exception and handle it in the bloc
+              // throw Exception('Failed to load data');
+              print("ending error");
+            }
+          }).catchError((error) {
+            // Handle errors in the bloc
+            print("ending error");
+          });
+          final bloc = BlocProvider.of<StartWorkoutBloc>(context);
+          bloc.stopTimer();
           Navigator.of(context).pop();
         }
       },

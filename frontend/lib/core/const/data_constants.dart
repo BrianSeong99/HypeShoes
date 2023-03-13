@@ -39,7 +39,7 @@ class DataConstants {
             minutes: TextConstants.gaitingMinutes,
             progress: 0.3,
             video: PathConstants.cowPoseVideo,
-            description: TextConstants.warriorDescription,
+            description: TextConstants.gaitingDescription,
             steps: [TextConstants.warriorStep1, TextConstants.warriorStep2],
           ),
         ]),

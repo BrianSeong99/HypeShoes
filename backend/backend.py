@@ -21,7 +21,7 @@ CORS(app)
 ESP32 = "/esp32"
 USER = "/user"
 
-email = None
+email = "brian@uw.edu" # temporary
 left_IP = "0.0.0.0"
 right_IP = "0.0.0.0"
 is_upload = False
@@ -134,6 +134,8 @@ def get_record_list():
 @app.route(USER + "/data/record", methods=["GET"])
 def get_record_data():
     global record_id
+    if record_id == None:
+        return jsonify(""), 201, {'Content-Type': 'application/json'}
     data = get_record_entry(record_id)
     data['_id'] = str(data['_id'])
     return jsonify(data), 200, {'Content-Type': 'application/json'}
