@@ -6,6 +6,10 @@ import 'package:fitness_flutter/screens/workout_details_screen/bloc/workoutdetai
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+
 
 class ExercisesList extends StatelessWidget {
   final WorkoutData workout;
@@ -106,6 +110,29 @@ class ExerciseCell extends StatelessWidget {
 
   Widget _createExerciseTextInfo() {
     final minutesStr = "${currentExercise.minutes} minutes";
+    // String results = "0.0 / 0.0";
+    final ValueNotifier<String> results = ValueNotifier<String>("0.0 / 0.0");
+
+    http.post(Uri.parse('http://127.0.0.1:5001/user/data/record/result'))
+          .then((response) {
+          if (response.statusCode == 200) {
+            String responseBody = response.body;
+            final body = json.decode(responseBody);
+            results.value = body["result"][0].toString() + " / " + body["result"][1].toString();
+            print("result: " + results.value);
+            // If the server did return a 200 OK response,
+            // parse the JSON data and update the bloc's state
+            print("beginning successful");
+          } else {
+            // If the server did not return a 200 OK response,
+            // throw an exception and handle it in the bloc
+            // throw Exception('Failed to load data');
+            print("beginning error");
+          }
+        }).catchError((error) {
+          // Handle errors in the bloc
+          print("beginning error");
+        });
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -125,6 +152,19 @@ class ExerciseCell extends StatelessWidget {
             fontWeight: FontWeight.w400,
           ),
         ),
+        ValueListenableBuilder<String>(
+              valueListenable: results,
+              builder: (context, value, _) {
+                return Text(
+                  '$value',
+                  style: TextStyle(
+                    color: ColorConstants.textBlack,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                  ),
+                );
+              },
+            ),
         // const SizedBox(height: 11),
         // Padding(
         //   padding: const EdgeInsets.only(right: 20),

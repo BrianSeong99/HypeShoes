@@ -89,10 +89,13 @@ def get_stride_average(record_data):
   return counter / len(data)
 
 def get_record_result(record_id_prev):
-  record_id_prev = "640f2bdea0640c3697ba5f01"
+  if record_id_prev == None:
+    return {"result": [0.0, 0.0]}
   record = records_col.find_one({"_id": ObjectId(record_id_prev)})
   left_stride = get_stride_average(record['left_sequence_data'])
   right_stride = get_stride_average(record['right_sequence_data'])
   print("stride", left_stride, right_stride)
-  return [left_stride, right_stride]
+  # left_stride = 1.0
+  # right_stride = 2.0
+  return {"result": [left_stride, right_stride]}
 
