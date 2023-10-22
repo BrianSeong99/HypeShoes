@@ -11,3 +11,15 @@ The microcontroller, in this case, the ESP32, is the brain of the system. It rec
 The gaiting data is then sent to the backend, where it is analyzed using various algorithms to detect any abnormalities in the user's walking pattern. The backend may also provide recommendations for corrective actions to improve the user's gait.
 
 The frontend is the user interface that displays the live gaiting data and other useful features for users to understand their walk. This may include visualizations of the user's walking pattern, such as graphs and charts, as well as notifications and alerts for any detected abnormalities.
+
+# Deck
+
+![](./pics/01.jpg)
+![](./pics/02.jpg)
+![](./pics/03.jpg)
+![](./pics/04.jpg)
+![](./pics/05.jpg)
+![](./pics/06.jpg)
+![](./pics/07.jpg)
+![](./pics/08.jpg)
+![](./pics/09.jpg)
